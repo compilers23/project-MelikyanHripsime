@@ -1,4 +1,11 @@
+INPUT_FILE_NAME = "testCode.pas"
 all:
-		as -o main.o main.s
-		as -o print.o print.s
-		ld -o main main.o print.o -lc -dynamic-linker /lib64/ld-linux-x86-64.so.2
+		javac	MyCompiler.java
+		javac	ScannerNew.java
+		javac	Parser.java
+		javac	Generator.java
+		javac	Cell.java
+		javac	Register.java
+test:
+		java MyCompiler $(INPUT_FILE_NAME)
+
