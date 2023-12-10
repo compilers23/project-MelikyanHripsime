@@ -1,27 +1,19 @@
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Generator {
+public class AssemblyCodeGenerator {
 	private static final List<Register> registers = new ArrayList<>();
 	private static final File file = new File("testHripsime.s");
 	private static String lastAssigned;
 
+
 	static {
-		registers.add(new Register("rax", ""));
-		registers.add(new Register("rbx", ""));
-		registers.add(new Register("rcx", ""));
-		registers.add(new Register("rdx", ""));
-		registers.add(new Register("r8", ""));
-		registers.add(new Register("r9", ""));
-		registers.add(new Register("r10", ""));
-		registers.add(new Register("r11", ""));
-		registers.add(new Register("r12", ""));
-		registers.add(new Register("r13", ""));
-		registers.add(new Register("r14", ""));
-		registers.add(new Register("r15", ""));
+		String[] registerNames = {"rax", "rbx", "rcx", "rdx", "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15"};
+		for (String registerName : registerNames) {
+			registers.add(new Register(registerName, ""));
+		}
 	}
 
 	public static String findRegister(String identifier) {
@@ -45,15 +37,12 @@ public class Generator {
 
 	public static void generateProgramStart() throws IOException {
 		boolean result = file.createNewFile();
-		if (result) {
-			System.out.println("File created: " + file.getCanonicalPath());
-		} else {
-			System.out.println("File already exists at location: " + file.getCanonicalPath());
-		}
+		System.out.println("See the result in: " + file.getCanonicalPath());
 		FileWriter myWriter = new FileWriter(file);
 		myWriter.write(".data" + "\n" + "\n");
 		myWriter.close();
 	}
+
 
 	public static void generateDeclaration(String name) throws IOException {
 		FileWriter myWriter = new FileWriter(file, true);
@@ -150,3 +139,4 @@ public class Generator {
 		myWriter.close();
 	}
 }
+

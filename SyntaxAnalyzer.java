@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Parser {
+public class SyntaxAnalyzer {
 	
 	static int index = 0;
 	static List<String> symbolTable = new ArrayList<>();
@@ -17,18 +17,18 @@ public class Parser {
 		return true;
 	}
 	
-	public static void myProgram(List<Cell> list) throws Exception {
-		Generator.generateProgramStart();
+	public static void myProgram(List<Element> list) throws Exception {
+		AssemblyCodeGenerator.generateProgramStart();
 		header(list);
 		defs(list);
-		Generator.generateNewLines(2);
+		AssemblyCodeGenerator.generateNewLines(2);
 		if(!list.get(index).getWord().equals("begin"))
 		{
 			throw new Exception();
 		}
 		else
 		{
-			Generator.generateBegin();
+			AssemblyCodeGenerator.generateBegin();
 			++index;
 		}
 		statements(list);
@@ -45,11 +45,11 @@ public class Parser {
 		{
 			throw new Exception();
 		}
-		Generator.generateNewLines(2);
-		Generator.generateEnd();
+		AssemblyCodeGenerator.generateNewLines(2);
+		AssemblyCodeGenerator.generateEnd();
 	}
 	
-	public static void defs(List<Cell> list) throws Exception
+	public static void defs(List<Element> list) throws Exception
 	{
 		if(list.get(index).getWord().equals("var"))
 		{
@@ -62,7 +62,7 @@ public class Parser {
 		}
 	}
 	
-	public static void header(List<Cell> list) throws Exception
+	public static void header(List<Element> list) throws Exception
 	{
 		if(!list.get(index).getWord().equals("program"))
 		{
@@ -100,7 +100,7 @@ public class Parser {
 
 	}
 	
-	public static void statement(List<Cell> list) throws Exception
+	public static void statement(List<Element> list) throws Exception
 	{
 		
 		if(!list.get(index).getType().equals("identifier"))
@@ -112,7 +112,7 @@ public class Parser {
 			if(findInSymbolTable(list.get(index).getWord()))
 			{
 				symbolTable.add(list.get(index).getWord());
-				Generator.generateDeclaration(list.get(index).getWord());
+				AssemblyCodeGenerator.generateDeclaration(list.get(index).getWord());
 				++index;
 			}
 			else
@@ -131,7 +131,7 @@ public class Parser {
 					if(findInSymbolTable(list.get(index).getWord()))
 					{
 						symbolTable.add(list.get(index).getWord());
-						Generator.generateDeclaration(list.get(index).getWord());
+						AssemblyCodeGenerator.generateDeclaration(list.get(index).getWord());
 						++index;
 					}
 					else
@@ -150,7 +150,7 @@ public class Parser {
 						if(findInSymbolTable(list.get(index + 1).getWord()))
 						{
 							symbolTable.add(list.get(index +1).getWord());
-							Generator.generateDeclaration(list.get(index +1).getWord());
+							AssemblyCodeGenerator.generateDeclaration(list.get(index +1).getWord());
 						}
 						else
 						{
@@ -181,7 +181,7 @@ public class Parser {
 		}
 	}
 	
-	public static void type(List<Cell> list) throws Exception
+	public static void type(List<Element> list) throws Exception
 	{
 		if(index >= list.size())
 		{
@@ -197,7 +197,7 @@ public class Parser {
 		}
 	}
 	
-	public static void statements(List<Cell> list) throws Exception
+	public static void statements(List<Element> list) throws Exception
 	{
 		if(index >= list.size())
 		{
@@ -216,7 +216,7 @@ public class Parser {
 		}
 	}
 	
-	public static void simpleAssignment(List<Cell> list) throws Exception
+	public static void simpleAssignment(List<Element> list) throws Exception
 	{
 		String word;
 		if(index >= list.size())
@@ -228,7 +228,7 @@ public class Parser {
 			throw new Exception("Error");
 		}
 		word = getString(list);
-		Cell cell = operand(list);
+		Element cell = operand(list);
 		String operand = cell.getWord();
 		String type = cell.getType();
 		if(!list.get(index).getWord().equals(";"))
@@ -239,10 +239,10 @@ public class Parser {
 		{
 			++index;
 		}
-		Generator.generateSimpleAssignment(word, operand, type);
+		AssemblyCodeGenerator.generateSimpleAssignment(word, operand, type);
 	}
 
-	private static String getString(List<Cell> list) throws Exception {
+	private static String getString(List<Element> list) throws Exception {
 		String word;
 		if(!list.get(index).getType().equals("identifier"))
 		{
@@ -270,7 +270,7 @@ public class Parser {
 		return word;
 	}
 
-	public static void complexAssignment(List<Cell> list) throws Exception
+	public static void complexAssignment(List<Element> list) throws Exception
 	{
 		String word;
 		String op1;
@@ -298,10 +298,10 @@ public class Parser {
 		{
 			++index;
 		}
-		Generator.generateComplexAssignment(word,op1,op2,operation);
+		AssemblyCodeGenerator.generateComplexAssignment(word,op1,op2,operation);
 	}
 
-	public static Cell operand(List<Cell> list) throws Exception
+	public static Element operand(List<Element> list) throws Exception
 	{
 		if(index >= list.size())
 		{
@@ -325,7 +325,7 @@ public class Parser {
 		}
 	}
 	
-	public static String mathOperator(List<Cell> list) throws Exception
+	public static String mathOperator(List<Element> list) throws Exception
 	{
 		if(index >= list.size())
 		{

@@ -1,8 +1,9 @@
-public class Cell {
+
+public class Element {
     private String word;
     private String type;
 
-    public Cell(String word, String type) {
+    public Element(String word, String type) {
         this.word = word;
         this.type = type;
     }
@@ -23,3 +24,4 @@ public class Cell {
         return word;
     }
 }
+

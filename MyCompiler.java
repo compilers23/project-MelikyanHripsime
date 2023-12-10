@@ -9,8 +9,8 @@ public class MyCompiler {
 		}
 		else
 		{
-			List<Cell> a = ScannerNew.get(args[0]);
-			Parser.myProgram(a);
+			List<Element> a = ScannerNew.get(args[0]);
+			SyntaxAnalyzer.myProgram(a);
 		}
 	}
 }

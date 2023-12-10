@@ -23,10 +23,10 @@ public class ScannerNew {
 		return KEYWORDS.contains(s);
 	}
 
-	public static List<Cell> get(String path) throws FileNotFoundException {
+	public static List<Element> get(String path) throws FileNotFoundException {
 		File text = new File(path);
 		java.util.Scanner scanner = new java.util.Scanner(text);
-		List<Cell> cells = new ArrayList<>();
+		List<Element> cells = new ArrayList<>();
 
 		while (scanner.hasNext()) {
 			String str = scanner.next();
@@ -44,16 +44,16 @@ public class ScannerNew {
 					}
 
 					if (isKeyword(lexeme.toString())) {
-						cells.add(new Cell(lexeme.toString(), "special"));
+						cells.add(new Element(lexeme.toString(), "special"));
 					} else {
-						cells.add(new Cell(lexeme.toString(), "identifier"));
+						cells.add(new Element(lexeme.toString(), "identifier"));
 					}
 				} else if (Character.isDigit(myChar[index])) {
 					while (index < myChar.length && Character.isDigit(myChar[index])) {
 						lexeme.append(myChar[index]);
 						index++;
 					}
-					cells.add(new Cell(lexeme.toString(), "number"));
+					cells.add(new Element(lexeme.toString(), "number"));
 				} else if (isCharacter(myChar[index])) {
 					lexeme.append(myChar[index]);
 
@@ -65,7 +65,7 @@ public class ScannerNew {
 						index++;
 					}
 
-					cells.add(new Cell(lexeme.toString(), "operator"));
+					cells.add(new Element(lexeme.toString(), "operator"));
 				} else {
 					lexeme.append(myChar[index]);
 					index++;
